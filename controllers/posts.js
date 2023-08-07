@@ -19,6 +19,8 @@ router.get("/:id", async (req, res) => {
       plain: true,
     });
 
+    var allComments = [];
+
     if (postData.comments.length > 0) {
       allComments = postData.comments.map((project) =>
         project.get({ plain: true })
