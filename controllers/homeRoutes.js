@@ -4,19 +4,25 @@ const withAuth = require("../utils/auth");
 
 router.get("/", async (req, res) => {
   try {
-    const postData = await Post.findAll({ order: [["createdAt", "ASC"]] });
+    const postData = await Post.findAll({
+      order: [["createdAt", "ASC"]],
+      include: [{ model: User, as: "user" }],
+    });
 
-    const allPosts = [];
+    var allPosts = [];
 
     if (postData.length > 0) {
       allPosts = postData.map((project) => project.get({ plain: true }));
     }
+
+    console.log(allPosts);
 
     res.render("homepage", {
       logged_in: req.session.loggedIn,
       posts: allPosts,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });

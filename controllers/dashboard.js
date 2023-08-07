@@ -5,15 +5,13 @@ const withAuth = require("../utils/auth");
 router.get("/dashboard", withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: { id: req.session.userId },
+      where: { author: req.session.userId },
       order: [["createdAt", "ASC"]],
     });
 
-    const allPosts = [];
+    var allPosts = [];
 
-    if (postData.length > 0) {
-      allPosts = postData.map((project) => project.get({ plain: true }));
-    }
+    allPosts = postData.map((project) => project.get({ plain: true }));
 
     res.render("dashboard", {
       logged_in: req.session.loggedIn,

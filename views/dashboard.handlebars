@@ -1,14 +1,20 @@
 <h2>Dashboard</h2>
 
 {{#each posts as |post|}}
-  <div class="row align-center mb-5">
-    <div class="col-md-6">
-      <h2>{{post.title}}</h2>
+  <a href="/posts/edit/{{post.id}}" style="color:inherit">
+    <div class="row align-center mb-5 post-box bg-light bg-radius">
+      <div class="col-md-12">
+        <div class="row align-center">
+          <div class="col-md-6">
+            <h2>{{post.title}}</h2>
+          </div>
+          <div class="col-md-6 display-flex justify-flex-end-md">
+            <p>{{makeTimestamp post.createdAt}}</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-md-6">
-      <h3><a href="">{{post.title}}</a></h3>
-    </div>
-  </div>
+  </a>
 {{/each}}
 
 <a href="/posts/new"><button class="btn btn-primary">Create new Post</button></a>

@@ -5,16 +5,18 @@ const loginFormHandler = async (event) => {
   const postBody = document.querySelector("#postBody").value.trim();
 
   if (postTitle && postBody) {
-    const response = await fetch("/api/posts", {
+    const response = await fetch("/api/post", {
       method: "POST",
       body: JSON.stringify({ postTitle, postBody }),
       headers: { "Content-Type": "application/json" },
     });
 
+    const responseData = await response.json();
+
     if (response.ok) {
-      document.location.replace("/");
+      document.location.replace("/dashboard");
     } else {
-      alert("Failed to log in");
+      alert("Failed to create post");
     }
   }
 };
