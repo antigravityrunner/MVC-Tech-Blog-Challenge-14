@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Post } = require("../models");
+const { User, Post, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
 router.get("/new", withAuth, async (req, res) => {
@@ -10,12 +10,27 @@ router.get("/new", withAuth, async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const postData = await Post.findOne({ where: { id: req.params.id } });
+    const postData = await Post.findOne({
+      where: { id: req.params.id },
+      include: [
+        { model: User },
+        { model: Comment, as: "comments", include: [{ model: User }] },
+      ],
+      plain: true,
+    });
+
+    if (postData.comments.length > 0) {
+      allComments = postData.comments.map((project) =>
+        project.get({ plain: true })
+      );
+    }
 
     res.render("viewPost", {
       logged_in: req.session.loggedIn,
       postTitle: postData.title,
       postBody: postData.body,
+      postId: postData.id,
+      comments: allComments,
     });
   } catch (err) {
     console.log(err);
