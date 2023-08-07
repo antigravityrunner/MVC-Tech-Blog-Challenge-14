@@ -12,8 +12,11 @@
       <nav>
         <a href="/"><button class="btn" id="home">Home</button></a>
         {{#if logged_in}}
-          <button class="btn" id="home">Dashboard</button>
-          <button class="btn" id="logout">logout</button>
+          <a href="/dashboard"><button
+              class="btn"
+              id="home"
+            >Dashboard</button></a>
+          <button class="btn" id="logout">Logout</button>
         {{else}}
           <a href="/login"><button class="btn" id="home">Login</button></a>
         {{/if}}
